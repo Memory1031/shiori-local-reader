@@ -124,6 +124,10 @@ EPUB 2 重复引用保持拒绝；只有明确 package version=3.0 使用 EPUB 3
 
 ## 解析支持矩阵
 
+CSS `@import` 按深度优先展开，导入规则先于当前样式正文；原生正文与特殊页共用展开结果和 screen/media 策略。环检测按递归分支进行，路径读取缓存不合并重复 cascade occurrence。每文档每次展开最多接受 8 × 1024 × 1024 个原始 UTF-16 code units（含注释，重复 occurrence 分别计入），导入深度最多 8、导入次数最多 64。超出剩余字符预算的整张样式被跳过，后续能放入预算的样式仍可接受；此预算约束 CSS 扫描输入，ZIP 解包及读取仍由外围限制负责。
+
+`url()` 支持右括号前空白；关键字前缀不视为 `@charset` / `@import` / `url`。已知技术债：正则删除注释仍会影响字符串中的 `/* ... */`，未来有实际兼容需求时再引入识别引号的扫描器。
+
 | 能力 | 当前支持与限制 | 回归入口（test/data/local 下） |
 | --- | --- | --- |
 | ZIP / container / OPF | 有界解包、CRC、路径校验、manifest/spine 顺序；多 rootfile 选择首个匹配项 | parsers、epub_structure、epub_boundary |

@@ -22,6 +22,8 @@ EPUB/TXT 格式支持和排版限制见[本地导入](local-import.md)，阅读�
 
 ## 当前验证状态
 
+2026-09-09 CSS 导入评审收尾：修复原始 CSS 总量硬上限、`url()` 尾部空白及关键字边界，新增 3 项离线回归。完整 Flutter 测试实际为 438 项，全部通过；修改文件格式化及 `flutter analyze --no-pub` 通过。沿用纯 Dart 数据层实现，无平台依赖变更；本轮未执行 Android / iOS 构建或真机验证。预算语义与注释扫描技术债见[本地导入](local-import.md)。
+
 2026-09-09：完整离线测试 422 项、Python 发布工具测试 6 项、格式、静态分析及生成一致性检查通过。应用标识调整后补跑 10 项导入测试通过，Android Release 与 iOS 无签名 Release 构建通过；包内标识为 `dev.shiori.localreader`，主应用及 iOS 分享扩展版本均为 `1.0.0+1`。
 
 最终真机安装、正式签名产物及远端 Actions 尚待验证。本机 Android SDK annotations.zip 有损坏警告，未阻止构建。
