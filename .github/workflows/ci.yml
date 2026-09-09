@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # 必须与 .fvmrc 和 pubspec.yaml 的 Flutter 约束保持一致
+  FLUTTER_VERSION: 3.38.4
+  # 两份 pubspec.lock 都记录此镜像；源地址不同也会导致严格锁定校验失败。
+  PUB_HOSTED_URL: https://pub.flutter-io.cn
+
+jobs:
+  quality:
+    name: 格式、静态分析与生成一致性
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+          pub-cache-key: "flutter-pub-:os:-:version:-:arch:-${{ hashFiles('pubspec.lock', 'tool/db_codegen/pubspec.lock') }}"
+
+      - name: 安装依赖
+        run: flutter pub get --enforce-lockfile
+
+      - name: 安装数据库生成器依赖
+        working-directory: tool/db_codegen
+        run: dart pub get --enforce-lockfile
+
+      - name: 检查工作流与锁文件
+        run: |
+          dart tool/check_ci_yaml.dart
+          git diff --exit-code -- pubspec.lock tool/db_codegen/pubspec.lock
+
+      - name: 检查数据库生成代码
+        run: |
+          bash tool/generate_database.sh
+          git diff --exit-code -- tool/db_codegen/pubspec.lock lib/data/local/database
+          test -z "$(git ls-files --others --exclude-standard lib/data/local/database)"
+
+      - name: 检查本地化生成代码
+        run: |
+          flutter gen-l10n
+          git diff --exit-code -- lib/l10n/generated
+          test -z "$(git ls-files --others --exclude-standard lib/l10n/generated)"
+
+      - name: 格式检查
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: 静态分析
+        run: flutter analyze --no-pub

@@ -1,0 +1,191 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:html/dom.dart' as dom;
+import 'epub_text_styles.dart';
+import 'epub_image_candidates.dart';
+
+/// Builds a self-contained, inert document for short, authored layout pages.
+/// The caller resolves archive paths; no filesystem or network URLs survive.
+String? epubPresentation(
+  dom.Document document,
+  String path,
+  String Function(String) readText,
+  Uint8List Function(String) readBytes,
+  String? Function(String, String) resolve,
+) {
+  final body = document.body;
+  if (body == null || body.text.length > 2000) return null;
+  final sheets = epubDocumentStylesheets(
+    document,
+    path,
+    resolve,
+    readText,
+  ).toList();
+  final layout = RegExp(
+    r'(?:float\s*:\s*(?:left|right)|(?:^|[;{])\s*(?:-webkit-)?transform\s*:|writing-mode\s*:\s*vertical|position\s*:\s*absolute)',
+    caseSensitive: false,
+  );
+  var authored = [
+    body,
+    ...body.querySelectorAll('[style]'),
+  ].any((e) => layout.hasMatch(e.attributes['style'] ?? ''));
+  for (final (_, css) in sheets) {
+    for (final (selector, declarations) in epubScreenRules(css)) {
+      if (!layout.hasMatch(declarations)) continue;
+      try {
+        if (document.querySelectorAll(selector).any((e) {
+          for (dom.Element? node = e; node != null; node = node.parent) {
+            if (node == body) return true;
+          }
+          return false;
+        })) {
+          authored = true;
+        }
+      } on FormatException {
+        /* Unsupported selectors do not select a page. */
+      } on UnimplementedError {
+        /* A publisher pseudo-class must not abort importing the whole book. */
+      }
+    }
+  }
+  if (!authored) return null;
+  // Complex SVG is not in the inert HTML subset. The native parser retains
+  // package-local SVG <image> bitmaps; prefer that to a visually empty page.
+  if (body.querySelector('svg') != null) return null;
+  var resourceBytes = 0;
+  final resources = <String, String>{};
+  String resource(String base, String href, {bool rasterOnly = false}) {
+    String? ref;
+    try {
+      ref = resolve(base, href.trim());
+    } on FormatException {
+      return '';
+    }
+    if (ref == null) return '';
+    final cacheKey = '${rasterOnly ? 'image' : 'resource'}:$ref';
+    if (resources.containsKey(cacheKey)) return resources[cacheKey]!;
+    final ext = ref.split('.').last.toLowerCase();
+    var mime = const {
+      'png': 'image/png',
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'gif': 'image/gif',
+      'webp': 'image/webp',
+      'ttf': 'font/ttf',
+      'otf': 'font/otf',
+      'woff': 'font/woff',
+      'woff2': 'font/woff2',
+    }[ext];
+    if (!rasterOnly && mime == null) return '';
+    final bytes = readBytes(ref);
+    if (bytes.isEmpty) return '';
+    if (rasterOnly) mime = epubRasterMime(bytes);
+    if (mime == null) return '';
+    resourceBytes += bytes.length;
+    if (resourceBytes > 8 * 1024 * 1024) return '';
+    return resources[cacheKey] = 'data:$mime;base64,${base64Encode(bytes)}';
+  }
+
+  String css(String base, String value) => value
+      .replaceAll(RegExp(r'@import\s+[^;]+;', caseSensitive: false), '')
+      .replaceAllMapped(
+        RegExp(r'''url\(\s*["']?([^"')]+)["']?\s*\)''', caseSensitive: false),
+        (m) => 'url("${resource(base, m.group(1)!)}")',
+      )
+      .replaceAll('</', r'<\/');
+  final copy = body.clone(true);
+  // Resolve before sanitizing picture/source attributes or removing nodes.
+  final selectedImages = <dom.Element, String>{};
+  for (final img in copy.querySelectorAll('img')) {
+    var selected = '';
+    for (final href in epubImageCandidates(img).take(128)) {
+      selected = resource(path, href, rasterOnly: true);
+      if (selected.isNotEmpty) break;
+    }
+    selectedImages[img] = selected;
+  }
+  const allowed = {
+    'picture',
+    'div',
+    'p',
+    'span',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'br',
+    'hr',
+    'em',
+    'strong',
+    'b',
+    'i',
+    'small',
+    'ruby',
+    'rt',
+    'rp',
+    'section',
+    'article',
+    'blockquote',
+    'figure',
+    'figcaption',
+    'img',
+    'ul',
+    'ol',
+    'li',
+    'a',
+    'nav',
+    'main',
+    'header',
+    'footer',
+    'aside',
+    'table',
+    'thead',
+    'tbody',
+    'tfoot',
+    'tr',
+    'th',
+    'td',
+    'dl',
+    'dt',
+    'dd',
+    'sup',
+    'sub',
+    's',
+    'u',
+    'pre',
+    'code',
+  };
+  for (final e in copy.querySelectorAll('*').toList()) {
+    if (!allowed.contains(e.localName)) {
+      e.remove();
+      continue;
+    }
+    final original = Map<Object, String>.from(e.attributes);
+    e.attributes.clear();
+    for (final name in ['class', 'id', 'lang', 'dir', 'title', 'hidden']) {
+      if (original[name] case final value?) e.attributes[name] = value;
+    }
+    if (original['style'] case final value?) {
+      e.attributes['style'] = css(path, value);
+    }
+    if (e.localName == 'img') {
+      e.attributes['src'] = selectedImages[e] ?? '';
+      e.attributes['alt'] = original['alt'] ?? '';
+    }
+  }
+  final bodyAttributes = Map<Object, String>.from(copy.attributes);
+  copy.attributes.clear();
+  for (final name in ['class', 'id', 'lang', 'dir', 'hidden']) {
+    if (bodyAttributes[name] case final value?) copy.attributes[name] = value;
+  }
+  if (bodyAttributes['style'] case final value?) {
+    copy.attributes['style'] = css(path, value);
+  }
+  final styles = sheets.map((s) => css(s.$1, s.$2)).join('\n');
+  return '''<!doctype html><html><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>$styles</style></head>${copy.outerHtml}</html>''';
+}

@@ -1,0 +1,104 @@
+name: Release
+
+# 正式发布工作流：仅在推送 v* 标签时触发。日常质量检查由 ci.yml 负责，
+# 按用户约定直接构建 Android；完整检查由 develop CI 独立执行。
+# 对外公开分发前需完成 TASK_PLAN 的 RELEASE-001 渠道 / 许可审查。
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  # 同一标签的多次运行不互相取消，避免 Release 写一半被中断。
+  cancel-in-progress: false
+
+env:
+  # 必须与 .fvmrc 和 pubspec.yaml 的 Flutter 约束保持一致
+  FLUTTER_VERSION: 3.38.4
+  # 两份 pubspec.lock 都记录此镜像；源地址不同也会导致严格锁定校验失败。
+  PUB_HOSTED_URL: https://pub.flutter-io.cn
+
+jobs:
+  android-release:
+    name: Android 签名发布构建
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: 预检固定版本的 APK 校验工具
+        # runner 已预装 35.0.0；不依赖未加入 PATH 的 sdkmanager。
+        run: python3 tool/release_android.py tools
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+          pub-cache-key: "flutter-pub-:os:-:version:-:arch:-${{ hashFiles('pubspec.lock', 'tool/db_codegen/pubspec.lock') }}"
+
+      - name: 安装依赖
+        run: flutter pub get --enforce-lockfile
+
+      - name: 生成本地化代码
+        run: flutter gen-l10n
+
+      - name: 校验 tag 与包版本
+        run: python3 tool/release_android.py version
+
+      - name: 校验并写入签名配置
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: python3 tool/release_android.py signing
+
+      - name: 构建 release APK
+        run: flutter build apk --release --no-pub --target lib/main.dart
+
+      - name: 验证 APK 签名、版本并生成校验文件
+        run: python3 tool/release_android.py verify
+
+      - name: 清理签名文件
+        if: always()
+        run: rm -f android/key.properties android/app/release-keystore.jks android/release-certificate.der
+
+      - name: 保存已验证产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-${{ github.ref_name }}
+          path: build/release-assets/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: 创建 GitHub Release 并附上产物
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # 已有 Release 才走覆盖上传；创建失败不再被无条件 fallback 掩盖。
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" build/release-assets/* --clobber
+          else
+            RELEASE_FLAGS=()
+            if [[ "$GITHUB_REF_NAME" == *-* ]]; then RELEASE_FLAGS+=(--prerelease); fi
+            NOTES_FILE="docs/release/notes/${GITHUB_REF_NAME}.md"
+            if [[ -f "$NOTES_FILE" ]]; then
+              RELEASE_FLAGS+=(--notes-file "$NOTES_FILE")
+            else
+              RELEASE_FLAGS+=(--generate-notes)
+            fi
+            gh release create "$GITHUB_REF_NAME" build/release-assets/* \
+              --title "$GITHUB_REF_NAME" --verify-tag "${RELEASE_FLAGS[@]}"
+          fi

@@ -1,0 +1,612 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class AppLocalizationsZh extends AppLocalizations {
+  AppLocalizationsZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get shelfLocal => '本地';
+
+  @override
+  String shelfLocalFormat(String format) {
+    return '本地 · $format';
+  }
+
+  @override
+  String get localBookContents => '全书目录';
+
+  @override
+  String get articleContents => '卷内目录';
+
+  @override
+  String get articleContentsEmpty => '这篇正文没有可识别的章节标题。仍可通过分卷列表切换文章。';
+
+  @override
+  String get articleContentsHint => '从正文标题生成；纯文本标题识别可能不完整。';
+
+  @override
+  String get volumesTitle => '分卷目录';
+
+  @override
+  String get volumesLoad => '加载目录';
+
+  @override
+  String get shelfTagline => '把喜欢的故事，留在手边。';
+
+  @override
+  String get offlineEnvironment => '离线演示 · 仅含测试书籍';
+
+  @override
+  String get historyTitle => '最近阅读';
+
+  @override
+  String get historyClear => '清除此书阅读记录';
+
+  @override
+  String get chapterFallback => '原章节已不在目录中，已打开相邻章节。';
+
+  @override
+  String get historyEmpty => '暂无阅读记录。';
+
+  @override
+  String get shelfTitle => '书架';
+
+  @override
+  String get importTitle => '导入书籍';
+
+  @override
+  String get shelfEmpty => '书架暂无书籍。';
+
+  @override
+  String get nextChapter => '下一章';
+
+  @override
+  String get previousChapter => '上一章';
+
+  @override
+  String get catalogUnnamedVolume => '未命名卷';
+
+  @override
+  String get catalogStale => '已保存的目录可能不是最新内容。';
+
+  @override
+  String get catalogEmpty => '暂无章节。';
+
+  @override
+  String get detailRefresh => '刷新详情';
+
+  @override
+  String get detailStale => '已保存的详情可能不是最新信息。';
+
+  @override
+  String get detailStart => '开始阅读';
+
+  @override
+  String get detailContinue => '继续阅读';
+
+  @override
+  String get detailAddShelf => '加入书架';
+
+  @override
+  String get detailRemoveShelf => '移出书架';
+
+  @override
+  String get detailActionsPending => '暂不可用的阅读和书架操作仍在开发中。';
+
+  @override
+  String get detailSynopsis => '简介';
+
+  @override
+  String get detailNoSynopsis => '暂无简介。';
+
+  @override
+  String get detailCover => '书籍封面';
+
+  @override
+  String get detailStatusUnknown => '连载状态未知';
+
+  @override
+  String get detailStatusOngoing => '连载中';
+
+  @override
+  String get detailStatusCompleted => '已完结';
+
+  @override
+  String get detailStatusHiatus => '暂停连载';
+
+  @override
+  String get readerImagePlaceholder => '插图';
+
+  @override
+  String get hideReaderControls => '隐藏阅读操作栏';
+
+  @override
+  String get showReaderControls => '显示阅读操作栏';
+
+  @override
+  String get readerExperimentAction => '视口实验';
+
+  @override
+  String get accessRestrictedMessage => '此内容的访问受到限制。';
+
+  @override
+  String get catalogTitle => '目录';
+
+  @override
+  String get loadMoreAction => '加载更多';
+
+  @override
+  String get openReaderAction => '打开阅读器';
+
+  @override
+  String get pagedReading => '左右翻页';
+
+  @override
+  String get scrollReading => '上下滚动';
+
+  @override
+  String get appTitle => 'Shiori';
+
+  @override
+  String get backAction => '返回';
+
+  @override
+  String get connectionFailureMessage => '无法连接，请检查网络后重试。';
+
+  @override
+  String get databaseFailureMessage => '本地存储发生问题，暂时无法完成操作。';
+
+  @override
+  String get featurePending => '此功能尚在开发中。';
+
+  @override
+  String get loading => '正在加载…';
+
+  @override
+  String get loadingSettings => '正在读取设置';
+
+  @override
+  String get notFoundMessage => '未找到这项内容。';
+
+  @override
+  String get novelDetailsTitle => '小说详情';
+
+  @override
+  String get parseFailureMessage => '内容格式可能已变化，暂时无法读取。';
+
+  @override
+  String get rateLimitedMessage => '请求过于频繁，请稍后再试。';
+
+  @override
+  String get readCacheAction => '读取缓存';
+
+  @override
+  String get readerTitle => '阅读';
+
+  @override
+  String get readingFeaturesPending => '阅读功能正在准备中。';
+
+  @override
+  String get retryAction => '重试';
+
+  @override
+  String get searchTitle => '搜索';
+
+  @override
+  String get sessionFailureMessage => '访问会话不可用，请稍后再试。';
+
+  @override
+  String get sourceUnavailableMessage => '内容服务暂时不可用，请稍后再试。';
+
+  @override
+  String get tooLargeMessage => '内容超出当前可处理的大小。';
+
+  @override
+  String get unsupportedMessage => '暂不支持此功能。';
+
+  @override
+  String get readerSettings => '阅读设置';
+
+  @override
+  String get readerFontSize => '字号';
+
+  @override
+  String get readerLineHeight => '行高';
+
+  @override
+  String get readerParagraphSpacing => '段间距';
+
+  @override
+  String get readerHorizontalPadding => '横向边距';
+
+  @override
+  String get readerThemeSystem => '跟随系统';
+
+  @override
+  String get readerThemeLight => '浅色';
+
+  @override
+  String get readerThemeDark => '深色';
+
+  @override
+  String get readerSettingsFailure => '无法读取或保存阅读设置。';
+
+  @override
+  String get readerReset => '恢复默认';
+
+  @override
+  String get readerProgressUnsaved => '阅读进度暂未保存，点按重试。';
+
+  @override
+  String get labTitle => '视觉样板';
+
+  @override
+  String get labNotice => '离线视觉样板 · 不修改书架数据';
+
+  @override
+  String get labShelf => '书架';
+
+  @override
+  String get labDetail => '小说详情';
+
+  @override
+  String get labReader => '阅读器';
+
+  @override
+  String get labContinue => '继续阅读';
+
+  @override
+  String get labMyBooks => '我的书架';
+
+  @override
+  String get labDiscover => '发现';
+
+  @override
+  String get labChapter => '第一章 · 末班列车';
+
+  @override
+  String get labProgress => '本章约 36%';
+
+  @override
+  String get labAuthor => '栞文库编辑室';
+
+  @override
+  String get labBook1 => '夏日尽头的车站';
+
+  @override
+  String get labBook2 => '寄往月亮的信';
+
+  @override
+  String get labBook3 => '雨中的城市';
+
+  @override
+  String get labBook4 => '海风起时';
+
+  @override
+  String get labLongTitle => '那个夏天，我们追着末班列车来到世界尽头，发现了一封寄给明天的信';
+
+  @override
+  String get labSynopsis =>
+      '没有名字的车站，每到夏天都会收到一封信。这一次，寄信人却尚未出生。沿着海岸线，少女与少年寻找信中的地址，也寻找那些来不及说出口的约定。';
+
+  @override
+  String get labParagraph =>
+      '站台上很安静。铁轨的另一边，海面收拢了午后最后的光。她小心地拆开信封，仿佛整个夏天都会从那道窄窄的缝隙里溜走。\n信的开头，写着明天的日期。身后的某个地方，铃声轻轻响了一次。';
+
+  @override
+  String get labCatalog => '目录';
+
+  @override
+  String get labSave => '加入书架';
+
+  @override
+  String get labSaved => '已加入书架';
+
+  @override
+  String get labEmpty => '下一段故事，正在等你。';
+
+  @override
+  String get labSearch => '去找一本书';
+
+  @override
+  String get labImport => '导入文件';
+
+  @override
+  String get labNormal => '正常内容';
+
+  @override
+  String get labLong => '长标题';
+
+  @override
+  String get labMissing => '缺封面';
+
+  @override
+  String get labEmptyState => '空状态';
+
+  @override
+  String get labLoading => '加载';
+
+  @override
+  String get labError => '错误';
+
+  @override
+  String get labPreviewAction => '仅为样板，此操作将在对应功能任务接通。';
+
+  @override
+  String get labSize => '画布宽度';
+
+  @override
+  String get labScale => '文字缩放';
+
+  @override
+  String get labNight => '深色';
+
+  @override
+  String get labIllustration => '自制几何封面插画';
+
+  @override
+  String get labSettings => '阅读设置';
+
+  @override
+  String get labFullscreen => '全屏预览';
+
+  @override
+  String get readerRestoreNearby => '内容更新，已恢复到附近位置';
+
+  @override
+  String get readerRestoreReadFailed => '暂时无法读取旧进度，已暂停保存；点按重试恢复';
+
+  @override
+  String get appAppearance => '应用外观';
+
+  @override
+  String get appAppearanceDescription => '仅影响应用页面；阅读配色单独设置。';
+
+  @override
+  String get readerColors => '阅读配色';
+
+  @override
+  String get readerPaper => '纸白';
+
+  @override
+  String get readerWarm => '暖纸';
+
+  @override
+  String get readerNight => '夜间';
+
+  @override
+  String get readerControlsHint => '点按正文中间显示或隐藏工具栏，点按两侧或左右拖动翻页。';
+
+  @override
+  String get readerGotIt => '知道了';
+
+  @override
+  String readerChapterProgress(int percent) {
+    return '本章约 $percent%';
+  }
+
+  @override
+  String get moreActions => '更多';
+
+  @override
+  String get readerProgressLabel => '进度';
+
+  @override
+  String get shelfGrid => '网格';
+
+  @override
+  String get shelfList => '列表';
+
+  @override
+  String get allChapters => '全部章节';
+
+  @override
+  String get shelfDetails => '详情';
+
+  @override
+  String get shelfRemove => '移除';
+
+  @override
+  String get launchTagline => '故事，即将继续';
+
+  @override
+  String get launchLoading => '正在准备书架…';
+
+  @override
+  String get cacheFailureMessage => '缓存暂时不可用，内容可能尚未保存到本地。';
+
+  @override
+  String get cacheMissMessage => '暂无可用缓存，请联网后再试。';
+
+  @override
+  String get importIncoming => '有文件等待导入';
+
+  @override
+  String get importReview => '查看';
+
+  @override
+  String get importLater => '稍后处理';
+
+  @override
+  String get importReceiving => '正在复制文件…';
+
+  @override
+  String get importProcessing => '正在导入书籍…';
+
+  @override
+  String get importSuccess => '书籍已保存。';
+
+  @override
+  String get importHint => '选择一个 TXT 或 EPUB 文件，最大 128 MiB。';
+
+  @override
+  String get importChoose => '选择文件';
+
+  @override
+  String get importStart => '导入';
+
+  @override
+  String get importRetry => '重试';
+
+  @override
+  String get importCancel => '取消';
+
+  @override
+  String get importDone => '完成';
+
+  @override
+  String get importTooLarge => '文件超过 128 MiB，请选择较小的文件。';
+
+  @override
+  String get importMultiple => '每次仅支持一个文件，请重新选择。';
+
+  @override
+  String get importBusy => '请先处理已有的待导入文件，再重新打开或分享此文件。';
+
+  @override
+  String get importUnsupported => '请选择 TXT 或 EPUB 文件；不支持导入网页链接。';
+
+  @override
+  String get importInvalid => '文件为空或内容与格式不符，请检查文件。';
+
+  @override
+  String get importParserUnavailable => '当前版本暂不支持解析此格式。文件尚未导入，你可以取消并稍后重新选择。';
+
+  @override
+  String get importStorage => '无法保存文件，请检查可用空间后重试。';
+
+  @override
+  String get importCancelled => '导入已取消，书籍未提交。';
+
+  @override
+  String get importUnreadable => '无法读取文件，请确认文件仍可访问后重新选择。';
+
+  @override
+  String get importEncodingHint => '请检查预览，选择文字显示正确的编码后继续。';
+
+  @override
+  String get importEncodingAuto => '文字编码：自动识别';
+
+  @override
+  String get importEncodingInvalid => '无法按所选编码完整解码，请更换编码或检查原文件。';
+
+  @override
+  String get importDrm => '这本 EPUB 含受保护或加密的内容，暂不支持导入。';
+
+  @override
+  String get importFixedLayout => '暂不支持固定版式 EPUB，请使用流式排版版本。';
+
+  @override
+  String get importParseLimit =>
+      '文件超过解析限制：TXT 16 MiB、EPUB 64 MiB；过大的章节、图片或解压内容也无法导入。';
+
+  @override
+  String get importEpubSupport =>
+      '支持普通流式 EPUB 图文。文字样式简化；脚本、外部资源和自定义字体不加载，缺失图片保留占位。';
+
+  @override
+  String get localBooksTitle => '本地文件';
+
+  @override
+  String get localBooksHint => '管理已导入的书籍。移除本地书籍会删除应用内文件及阅读进度，外部原文件不受影响。';
+
+  @override
+  String get localBooksEmpty => '还没有导入本地书籍。';
+
+  @override
+  String get localDeleteTitle => '删除本地书籍？';
+
+  @override
+  String localDeleteMessage(String title) {
+    return '将删除《$title》的应用内原文件、正文、插图、书架记录和阅读进度。外部原文件不受影响，此操作无法撤销。';
+  }
+
+  @override
+  String get localDeleteConfirm => '删除书籍和进度';
+
+  @override
+  String get localDeleted => '本地书籍和阅读进度已删除。';
+
+  @override
+  String get localCleanupPending => '书籍和进度已移除，剩余文件将在下次启动时清理。';
+
+  @override
+  String get localShelfAdded => '已加入书架。';
+
+  @override
+  String get localReadNow => '立即阅读';
+
+  @override
+  String get appAccentTitle => '主题色';
+
+  @override
+  String get appAccentTeal => '青绿';
+
+  @override
+  String get appAccentBlueGrey => '蓝灰';
+
+  @override
+  String get appAccentWarmBrown => '暖棕';
+
+  @override
+  String get appAccentSoftPink => '淡粉';
+
+  @override
+  String get readerChapterLoadFailed => '暂时无法打开目标章节，已保留当前页面。';
+
+  @override
+  String get localReparse => '重新解析';
+
+  @override
+  String get localReparseConfirm => '使用保留的原文件重新解析，并尽量恢复阅读位置。失败或取消会保留旧内容。';
+
+  @override
+  String get localReparseDone => '重新解析完成，阅读位置已保留。';
+
+  @override
+  String get localReparseApproximate => '重新解析完成，已恢复到附近位置，请检查当前内容。';
+
+  @override
+  String get localReparseReaderClosed => '这本书正在重新解析。请返回书架后重新打开。';
+
+  @override
+  String get readerLinks => '本章链接';
+
+  @override
+  String get readerLinkReturn => '返回原位置';
+
+  @override
+  String get readerLinkUnavailable => '此链接不可用，仅支持书内有效文档和锚点。';
+
+  @override
+  String get readerLinkDepth => '已达到链接层级上限，请先返回。';
+
+  @override
+  String get readerMarginVeryNarrow => '极窄';
+
+  @override
+  String get readerMarginNarrow => '窄';
+
+  @override
+  String get readerMarginMedium => '适中';
+
+  @override
+  String get readerMarginWide => '宽';
+
+  @override
+  String get readerMarginVeryWide => '极宽';
+
+  @override
+  String readerDecrease(String label) {
+    return '减小$label';
+  }
+
+  @override
+  String readerIncrease(String label) {
+    return '增大$label';
+  }
+}
