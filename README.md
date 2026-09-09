@@ -11,6 +11,12 @@ Shiori is an offline reader. Books are imported from device files; the bookshelf
 
 > The project is licensed under [Apache-2.0](LICENSE). Release procedures are described in [CI & Release](docs/ci.md) (Chinese).
 
+## Screenshots
+
+| Bookshelf | Reader | Catalog |
+| --- | --- | --- |
+| <img src="assets/screenshots/bookshelf.png" width="270" /> | <img src="assets/screenshots/reader.png" width="270" /> | <img src="assets/screenshots/catalog.png" width="270" /> |
+
 ## Features
 
 - **Local library** — import TXT and DRM-free reflowable EPUB 2/3 via the system file picker, "Open with" or share sheet. Identical files are deduplicated; files with the same name but different contents are treated as different books.
@@ -23,7 +29,7 @@ Shiori is an offline reader. Books are imported from device files; the bookshelf
 
 ## Releases
 
-Version 1.0.0 is being prepared; downloadable release packages will be available after publication.
+Version 1.0.0 is now published: download the signed APK from the [v1.0.0 release page](https://github.com/Memory1031/shiori-local-reader/releases/tag/v1.0.0), with `SHA256SUMS.txt` and release metadata attached.
 
 [Shiori 1.0.0](docs/release/notes/v1.0.0.md) · [GitHub Releases](https://github.com/Memory1031/shiori-local-reader/releases)
 

@@ -11,6 +11,12 @@ Shiori 是一款离线阅读器。书籍从设备文件导入，阅读进度、�
 
 > 项目采用 [Apache-2.0](LICENSE) 许可证。发布操作见 [CI 与发布](docs/ci.md)。
 
+## 截图
+
+| 书架 | 阅读器 | 目录 |
+| --- | --- | --- |
+| <img src="assets/screenshots/bookshelf.png" width="270" /> | <img src="assets/screenshots/reader.png" width="270" /> | <img src="assets/screenshots/catalog.png" width="270" /> |
+
 ## 功能
 
 - **本地书库** — 导入 TXT 与无 DRM 的流式 EPUB 2/3；支持系统文件选择器、「打开方式」和分享接收。相同字节自动去重，同名不同内容视为不同书籍。
@@ -23,7 +29,7 @@ Shiori 是一款离线阅读器。书籍从设备文件导入，阅读进度、�
 
 ## 版本说明
 
-1.0.0 正在准备发布，安装包将在正式发布后提供。
+1.0.0 已正式发布：可前往 [v1.0.0 发布页](https://github.com/Memory1031/shiori-local-reader/releases/tag/v1.0.0) 下载签名 APK，附件包含 `SHA256SUMS.txt` 与发布元数据。
 
 [Shiori 1.0.0](docs/release/notes/v1.0.0.md) · [GitHub Releases](https://github.com/Memory1031/shiori-local-reader/releases)
 
