@@ -6,8 +6,10 @@ import '../../domain/contracts/import_source.dart';
 /// Only this adapter sees the application-owned native inbox path.
 class PlatformImportSource implements ImportSource {
   PlatformImportSource({MethodChannel? channel, EventChannel? events})
-    : _channel = channel ?? const MethodChannel('dev.shiori.localreader/import'),
-      _events = events ?? const EventChannel('dev.shiori.localreader/import_events');
+    : _channel =
+          channel ?? const MethodChannel('dev.shiori.localreader/import'),
+      _events =
+          events ?? const EventChannel('dev.shiori.localreader/import_events');
   final MethodChannel _channel;
   final EventChannel _events;
   String? _id, _path;
