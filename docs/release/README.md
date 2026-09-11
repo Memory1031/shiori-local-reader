@@ -24,7 +24,7 @@ dart tool/publish_release.dart prepare patch --apply
 
 支持 patch / minor / major，内部构建号递增，同步 pubspec 与全部 ShareExtension 配置。已 prepare 的版本不要重复执行，先检查 diff；提交后再次 prepare 会继续递增。
 
-按输出版本编写 `docs/release/notes/vX.Y.Z.md`，执行与改动相关的本地测试及必要分析、构建，记录实际结果和未测项。prepare 不提交、不推送、不打标签。
+按输出版本编写 `docs/release/notes/vX.Y.Z.md`：发布说明须中英文两份，置于同一文件，先中文后英文，两部分内容一致（GitHub Release 正文读取该文件）。执行与改动相关的本地测试及必要分析、构建，记录实际结果和未测项。prepare 不提交、不推送、不打标签。
 
 ## 2. 提交和发布
 
