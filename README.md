@@ -77,7 +77,6 @@ Offline tests, formatting, static analysis and database generation commands are 
 | [Architecture](docs/architecture.md) / [Contracts](docs/contracts.md) | Domain identity, composition, storage and cross-layer contracts |
 | [Reader](docs/reader.md) / [Local Import](docs/local-import.md) | Reading behavior, format compatibility and limits |
 | [Development](docs/development.md) / [CI](docs/ci.md) | Environment setup, tests and quality checks |
-| [Current scope](docs/TASK_PLAN.md) / [Validation status](docs/TASK_PLAN.md#当前验证状态) | Open items and verified evidence |
 
 Guides are currently written in Chinese; commit messages follow an English convention.
 

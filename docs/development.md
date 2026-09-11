@@ -82,4 +82,4 @@ fvm flutter run --target lib/main_dev.dart --dart-define=SHIORI_SCENARIO=longCha
 
 schema 快照用于迁移回归；迁移用不同版本快照和自制数据测试，检查事务失败回滚与未知版本拒绝。不要删除用户数据库来处理升级失败。先退出应用，保全数据库及 WAL / SHM、preferences、托管原件和 manifest，在副本上检查。
 
-设备探针使用隔离目录，入口留在 `integration_test/`。临时测量文件保存在忽略目录 `.tooling/evidence/`，当前验证状态记录在[任务计划](TASK_PLAN.md)中。
+设备探针使用隔离目录，入口留在 `integration_test/`。临时测量文件保存在忽略目录 `.tooling/evidence/`。

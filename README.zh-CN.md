@@ -77,7 +77,6 @@ fvm flutter run --target lib/main_dev.dart
 | [架构与数据规则](docs/architecture.md) / [接口合同](docs/contracts.md) | 领域身份、装配、存储与跨层契约 |
 | [阅读器](docs/reader.md) / [本地导入](docs/local-import.md) | 阅读行为、格式兼容与使用限制 |
 | [开发说明](docs/development.md) / [持续集成](docs/ci.md) | 环境准备、测试与质量检查 |
-| [当前范围](docs/TASK_PLAN.md) / [验证状态](docs/TASK_PLAN.md#当前验证状态) | 待办事项与实际验证证据 |
 
 ## 问题反馈
 
