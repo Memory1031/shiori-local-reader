@@ -18,17 +18,6 @@ develop 开发，master 为发布分支；只有推送 `v*` 标签运行 [releas
 
 ## 发布操作
 
-Android 仓库 secrets：`ANDROID_KEYSTORE_BASE64`、`ANDROID_STORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD`。密钥独立备份，不提交到 Git。本地没有 key.properties 时 Release 构建可能使用 Debug 签名，发布前需核验正式签名。iOS 使用本地开发者账户签名。
+Android 仓库 secrets：`ANDROID_KEYSTORE_BASE64`、`ANDROID_STORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD`。密钥独立备份，不提交到 Git。本地没有 key.properties 时 Release 构建可能使用 Debug 签名，发布前需核验正式签名。iOS 使用本地开发者账户签名，无 CI 发布链路。
 
-版本以 `pubspec.yaml` 为准，ShareExtension 的版本与构建号同步更新。后续版本通过 `dart tool/publish_release.dart prepare patch|minor|major` 预览，添加 `--apply` 才写入版本文件。将对应更新说明放在 `docs/release/notes/vX.Y.Z.md`。
-
-版本修改审核提交后，在干净且已推送的 develop 上执行（以下以 v1.0.0 为例）：
-
-```sh
-# 预览
-dart tool/publish_release.dart v1.0.0
-# 执行发布
-dart tool/publish_release.dart v1.0.0 --publish
-```
-
-脚本检查 develop 与远端一致且标签不存在，优先快进 master，原子推送 master 与标签，成功后回到 develop。冲突需人工处理。
+版本预演、发版核对清单、发布步骤与发布后验收见[发布操作](release/README.md)。

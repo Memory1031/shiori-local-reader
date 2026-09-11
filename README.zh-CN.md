@@ -9,7 +9,7 @@
 
 Shiori 是一款离线阅读器。书籍从设备文件导入，阅读进度、书架和排版偏好保存在应用本地。
 
-> 项目采用 [Apache-2.0](LICENSE) 许可证。发布操作见 [CI 与发布](docs/ci.md)。
+> 项目采用 [Apache-2.0](LICENSE) 许可证。发布操作见[发布操作文档](docs/release/README.md)。
 
 ## 截图
 

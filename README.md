@@ -9,7 +9,7 @@
 
 Shiori is an offline reader. Books are imported from device files; the bookshelf, reading progress and typography preferences stay on the device.
 
-> The project is licensed under [Apache-2.0](LICENSE). Release procedures are described in [CI & Release](docs/ci.md) (Chinese).
+> The project is licensed under [Apache-2.0](LICENSE). Release procedures are described in [the release guide](docs/release/README.md) (Chinese).
 
 ## Screenshots
 

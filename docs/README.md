@@ -10,7 +10,8 @@
 | [接口合同](contracts.md) | Repository、会话、取消和所有权 |
 | [阅读器](reader.md) | 排版、分页、动画和阅读位置 |
 | [本地导入](local-import.md) | EPUB/TXT、资源、诊断与重解析 |
-| [CI 与发布](ci.md) | 日常检查、签名配置与发布操作 |
+| [CI 与发布](ci.md) | 日常检查、签名配置与 tag 构建 |
+| [发布操作](release/README.md) | 发版核对清单、发布步骤与发布后验收 |
 | [解析支持矩阵](local-import.md#解析支持矩阵) | 能力、限制和回归入口 |
 | [解析器参考来源](references/epub.md) | 固定版本、许可和采纳理由 |
 | [版本说明](release/notes/v1.0.0.md) | 1.0.0 功能与使用说明 |
