@@ -10,6 +10,7 @@ import 'reader_controller.dart';
 import 'reader_screen.dart';
 import 'viewport/paper_turn.dart';
 import '../../shared/source_image.dart';
+import 'reader_footnote_text.dart';
 import '../local_books/local_catalog.dart';
 
 /// Owns one chapter session at a time; repositories outlive the route.
@@ -346,6 +347,10 @@ class _BookReaderScreenState extends State<BookReaderScreen>
       ),
     );
     if (!mounted || _invalidated || source != _reader || link == null) return;
+    if (link.isFootnote) {
+      await showReaderFootnote(context, link);
+      return;
+    }
     if (link.target == null || widget.linkDepth >= 8) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
