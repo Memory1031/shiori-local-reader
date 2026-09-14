@@ -108,7 +108,7 @@ class ReaderContentView extends StatefulWidget {
   final SettingsStore? settings;
   final VoidCallback? onCatalog, onPreviousChapter, onNextChapter;
   final VoidCallback? onDetails;
-  final VoidCallback? onLinks;
+  final void Function(BuildContext readerContext)? onLinks;
   final bool returnToOrigin;
   @override
   State<ReaderContentView> createState() => _ReaderContentViewState();
@@ -722,7 +722,7 @@ class _ReaderContentViewState extends State<ReaderContentView>
                   tooltip: l.moreActions,
                   icon: const Icon(Icons.more_horiz),
                   onSelected: (value) {
-                    if (value == 'links') widget.onLinks?.call();
+                    if (value == 'links') widget.onLinks?.call(context);
                     if (value == 'details') widget.onDetails?.call();
                     if (value == 'hide') _toggle();
                     if (value == 'save') widget.session?.retryProgress();
