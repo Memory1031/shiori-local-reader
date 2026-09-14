@@ -82,6 +82,7 @@ void main() {
             tester.widget<ReaderContentView>(find.byType(ReaderContentView));
         await tester.pumpWidget(app());
         await tester.pumpAndSettle();
+        final originalSession = view().session;
         // Tap the visible catalog action: local books bypass article headings.
         await tester.sendKeyEvent(LogicalKeyboardKey.f2);
         await tester.pumpAndSettle();
@@ -100,7 +101,8 @@ void main() {
         await tester.pumpAndSettle();
         final target = content.navigation.last.children.first;
         expect(view().content.key, target.chapterKey);
-        expect(view().initialPosition!.blockKey, target.blockKey);
+        expect(view().session, same(originalSession));
+        expect(view().viewportController!.capture()!.blockKey, target.blockKey);
         expect(
           find.textContaining('Anchor destination', findRichText: true),
           findsWidgets,
@@ -131,7 +133,7 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('缺锚点'));
         await tester.pumpAndSettle();
-        expect(view().initialPosition!.blockIndex, 0);
+        expect(view().viewportController!.capture()!.blockIndex, 0);
         // Late local reads must not update a disposed reader.
         store.delay = Completer<void>();
         view().onNextChapter!();
